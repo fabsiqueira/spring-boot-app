@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 
 
 
-@SpringBootTest
+@SpringBootTest //inicia a aplicacao
 //sem nenhuma gravacao usamos transactional e rollback
 @Transactional //cada metodo tem uma conexao aberta alem da transacao
 @Rollback
@@ -48,6 +49,21 @@ class SpringBootAppApplicationTests {
     } 
     //autorizacoes devem ser previamente salvas no banco ou referencia alguma existente
     @Test
+    void testaInsercaoAutorizacao(){
+        Usuario usuario = new  Usuario();
+        usuario.setNome("Usuario2");
+        usuario.setSenha("senha");
+        usuarioRepo.save(usuario);
+        Autorizacao aut = new Autorizacao();
+        aut.setNome("ROLE_USUARIO2");
+        aut.setUsuarios(new HashSet<Usuario>());
+        aut.getUsuarios().add(usuario);
+        autRepo.save(aut); 
+        assertNotNull(aut.getUsuarios().iterator().next().getId());
+    } 
+    
+       
+    @Test
     void testaAutorizacao(){
         Usuario usuario = usuarioRepo.findById(1L).get();
         assertEquals("ROLE_ADMIN", usuario.getAutorizacoes().iterator().next().getNome());
@@ -59,5 +75,28 @@ class SpringBootAppApplicationTests {
         Autorizacao aut = autRepo.findById(1L).get();
         assertEquals("Fabiola", aut.getUsuarios().iterator().next().getNome());
     } 
+
+    @Test 
+    void testaBuscaUsuarioNomeContains(){
+        List<Usuario> usuarios = usuarioRepo.findByNomeContainsIgnoreCase("A");
+        assertFalse(usuarios.isEmpty());
+    }
+    @Test 
+    void testaBuscaUsuarioNome(){
+        Usuario usuario = usuarioRepo.findByNome("Fabiola");
+        assertNotNull(usuario);
+    }
+
+    @Test
+    void testaBuscaUsuarioNomeSenha(){
+        Usuario usuario = usuarioRepo.findByNomeAndSenha("Fabiola", "12345"); 
+        assertNotNull(usuario);   
+    }
+    @Test 
+    void testaBuscaUsuarioNomeAutorizacao(){
+        List<Usuario> usuarios = usuarioRepo.findByAutorizacoesNome("ROLE_ADMIN");
+        assertFalse(usuarios.isEmpty());
+    }
+
 }
 
