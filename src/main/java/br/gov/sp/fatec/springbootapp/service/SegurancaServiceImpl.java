@@ -1,6 +1,8 @@
 package br.gov.sp.fatec.springbootapp.service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -38,5 +40,29 @@ public class SegurancaServiceImpl implements SegurancaService {
         usuarioRepo.save(usuario);
         return usuario;
     }
+    @Override
+    public List<Usuario> buscarTodosUsuarios(){
+        return usuarioRepo.findAll();
+        
+    }
+    @Override
+    public Usuario buscarUsuarioPorId(Long id){
+        Optional<Usuario> usuarioOP = usuarioRepo.findById(id);
+        if(usuarioOP.isPresent()){
+            return usuarioOP.get();
+        }  else{
+            throw new RuntimeException("usuario nao encontrado");
+        }
+        
+    }
+    @Override
+    public Usuario buscarUsuarioPorNome(String nome){
+        Usuario usuario= usuarioRepo.findByNome(nome);
+        if(usuario != null){
+            return usuario;
+        }  else{
+            throw new RuntimeException("usuario nao encontrado");
+        }
     
+    }
 }
