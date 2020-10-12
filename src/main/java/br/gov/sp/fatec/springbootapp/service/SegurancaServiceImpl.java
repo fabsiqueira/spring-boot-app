@@ -65,4 +65,12 @@ public class SegurancaServiceImpl implements SegurancaService {
         }
     
     }
+    @Override 
+    public Autorizacao buscarAutorizacaoPorNome(String nome){
+        Autorizacao autorizacao = autRepo.findByNome(nome);
+        if(autorizacao != null){
+            return autorizacao;
+        }
+        throw new RuntimeException("autorizacao não encontrada");
+    }
 }
