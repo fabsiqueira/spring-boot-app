@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
+import br.gov.sp.fatec.springbootapp.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 
@@ -51,7 +52,7 @@ public class SegurancaServiceImpl implements SegurancaService {
         if(usuarioOP.isPresent()){
             return usuarioOP.get();
         }  else{
-            throw new RuntimeException("usuario nao encontrado");
+            throw new RegistroNaoEncontradoException("usuario nao encontrado");
         }
         
     }
@@ -61,7 +62,7 @@ public class SegurancaServiceImpl implements SegurancaService {
         if(usuario != null){
             return usuario;
         }  else{
-            throw new RuntimeException("usuario nao encontrado");
+            throw new RegistroNaoEncontradoException("usuario nao encontrado");
         }
     
     }
@@ -71,6 +72,6 @@ public class SegurancaServiceImpl implements SegurancaService {
         if(autorizacao != null){
             return autorizacao;
         }
-        throw new RuntimeException("autorizacao não encontrada");
+        throw new RegistroNaoEncontradoException("autorizacao não encontrada");
     }
 }
