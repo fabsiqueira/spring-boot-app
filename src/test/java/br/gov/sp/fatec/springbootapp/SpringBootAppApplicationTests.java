@@ -2,13 +2,14 @@ package br.gov.sp.fatec.springbootapp;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+//import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
@@ -16,13 +17,14 @@ import br.gov.sp.fatec.springbootapp.entity.Usuario;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 import br.gov.sp.fatec.springbootapp.service.SegurancaService;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 
 
 @SpringBootTest //inicia a aplicacao
 //sem nenhuma gravacao usamos transactional e rollback
 @Transactional //cada metodo tem uma conexao aberta alem da transacao
-@Rollback
+//@Rollback
 
 class SpringBootAppApplicationTests {
     
@@ -34,6 +36,19 @@ class SpringBootAppApplicationTests {
 
     @Autowired
     private SegurancaService segService;
+
+    @BeforeAll // executar antes de tds os testes 
+    static void init(@Autowired JdbcTemplate jdbcTemplate){
+        jdbcTemplate.update(
+            "insert into usr_usuario (usr_nome, usr_senha) values(?,?)",
+            "Fabiola", "12345");
+        jdbcTemplate.update(
+            "insert into aut_autorizacao (aut_nome) values(?)",
+            "ROLE_ADMIN");
+        jdbcTemplate.update(
+            "insert into uau_usuario_autorizacao (usr_id, aut_id) values(?,?)",
+            1L, 1L);
+    }
     
     @Test
 	void contextLoads() {
