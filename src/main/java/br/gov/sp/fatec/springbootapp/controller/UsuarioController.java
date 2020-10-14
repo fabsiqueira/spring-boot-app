@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +48,8 @@ public class UsuarioController {
     public Usuario buscarPorNome(@RequestParam(value = "nome") String nome){
         return segurancaService.buscarUsuarioPorNome(nome);
     }
-
+    @JsonView(View.UsuarioResumo.class)
+    
     @PostMapping
     public ResponseEntity <Usuario> cadastraNovoUsuario(@RequestBody Usuario usuario, 
         UriComponentsBuilder uriComponentsBuilder){
