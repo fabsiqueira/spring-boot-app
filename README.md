@@ -5,3 +5,4 @@
 2 - Spring Security permite proteger métodos
    - Não utilizar o Controller para segurança, pois ele só vai proteger aquela rota (brecha na segurança)
    - Utilizar SegurancaService pois ele utilizará em todos os locais que o método for chamado
+3- Autenticando usando o Banco de Dados
