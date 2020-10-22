@@ -9,3 +9,5 @@
    - Utilizar SegurancaService pois ele utilizará em todos os locais que o método for chamado
 
 3- Autenticando usando o Banco de Dados
+
+4 - Filtro para autenticação com Token 
