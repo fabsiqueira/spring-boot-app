@@ -3,3 +3,5 @@
 Desenvolvimento com Spring 
 - [Spring Boot](https://github.com/fabsiqueira/spring-boot-app/tree/master)
 - [Spring Rest + Testes com Spring](https://github.com/fabsiqueira/spring-boot-app/tree/rest)
+- [Spring Basic Security](https://github.com/fabsiqueira/spring-boot-app/tree/security)
+- [Spring Security Jwt - Autenticação por Token](https://github.com/fabsiqueira/spring-boot-app/tree/security-jwt)
